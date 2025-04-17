@@ -1,117 +1,100 @@
 # open-in-xx
 
-一个 VSCode 扩展，允许你在任何配置的程序中打开文件/目录。
+A VSCode extension that allows you to open files/directories in any configured program.
 
-## 功能
+## Features
 
-- 在文件/目录的上下文菜单中添加"Open in Program"选项
-- 支持配置多个程序
-- 支持文件和目录路径变量
+- Adds "Open in Program" option to file/directory context menus
+- Supports configuration of multiple programs
+- Supports file and directory path variables
+- Default programs based on your operating system
 
-## 安装
+## Installation
 
-### 从源码安装
+### From Source
 
-1. 克隆仓库
-2. 运行 `npm install` 安装依赖
-3. 运行 `npm run compile` 编译扩展
-4. 按 F5 启动调试，或者使用 `vsce package` 打包成 vsix 文件安装
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Run `npm run compile` to compile the extension
+4. Press F5 to start debugging, or use `vsce package` to package as a vsix file for installation
 
-## 配置
+## Configuration
 
-在 VSCode 的 settings.json 中添加以下配置：
+Add the following configuration to VSCode's settings.json:
 
 ```json
 {
   "openInXX.programs": {
-    "Cursor": "cursor \"${file}\"",
+    "Cursor": "cursor \"${item}\"",
     "Terminal": "open -a Terminal \"${directory}\"",
     "Sublime Text": "subl \"${file}\""
   }
 }
 ```
 
-### 变量说明
+### Variables
 
-- `${file}`: 文件路径
-- `${directory}`: 目录路径
+- `${item}`: Path to the selected file or directory
+- `${file}`: File path (legacy, use `${item}` instead)
+- `${directory}`: Directory path (legacy, use `${item}` instead)
 
-## 使用方法
+### Advanced Configuration
 
-1. 在文件资源管理器中右键点击文件或目录
-2. 选择 "Open in Program"
-3. 从弹出的列表中选择要使用的程序
+You can also specify different commands for files and directories:
 
-## 故障排除
+```json
+{
+  "openInXX.programs": {
+    "VS Code": {
+      "file": "code \"${item}\"",
+      "directory": "code -n \"${item}\""
+    },
+    "Explorer": {
+      "directory": "explorer \"${item}\"",
+      "file": "explorer /select,\"${item}\""
+    }
+  }
+}
+```
 
-如果右键菜单中没有显示 "Open in Program" 选项，请尝试以下步骤：
+## Usage
 
-1. 确保扩展已激活：打开命令面板（Cmd+Shift+P），输入 "Developer: Reload Window" 重新加载窗口
-2. 检查配置：打开 settings.json 确保 `openInXX.programs` 配置正确
-3. 检查日志：打开输出面板（View > Output），选择 "Log (Window)"，查看是否有错误信息
-4. 尝试重新安装扩展
+1. Right-click a file or directory in the Explorer
+2. Select "Open in XX"
+3. Choose a program from the popup list
 
-## 已知问题
+You can also use the "Open the root folder in XX" command to open the workspace root directory.
 
-暂无
+## Troubleshooting
 
-## 更新日志
+If the "Open in XX" option does not appear in the context menu, try these steps:
 
-### 0.0.1
-
-- 初始版本
-- 支持在配置的程序中打开文件/目录
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+1. Make sure the extension is activated: Open the command palette (Cmd+Shift+P), type "Developer: Reload Window"
+2. Check configuration: Open settings.json and ensure `openInXX.programs` is correctly configured
+3. Check logs: Open the Output panel (View > Output), select "Open in XX" to check for error messages
+4. Try reinstalling the extension
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None at this time.
 
-## Release Notes
+## Changelog
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
+- Initial release
+- Support for opening files/directories in configured programs
+- Default program configurations based on operating system
 
-Initial release of ...
+## Requirements
 
-### 1.0.1
+VSCode 1.74.0 or higher.
 
-Fixed issue #.
+## Extension Settings
 
-### 1.1.0
+This extension contributes the following settings:
 
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+* `openInXX.programs`: Configure programs to open files/directories with. Can be a string command or an object with 'file' and 'directory' properties.
 
 ## For more information
 
