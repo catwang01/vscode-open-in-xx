@@ -12,6 +12,7 @@
   "activationEvents": [
     "onStartupFinished",
     "onCommand:open-in-xx.openInXX",
+    "onCommand:open-in-xx.openRootFolderInXX",
     "onView:explorer"
   ],
   "main": "./dist/extension.js",
@@ -20,6 +21,10 @@
       {
         "command": "open-in-xx.openInXX",
         "title": "Open in XX"
+      },
+      {
+        "command": "open-in-xx.openRootFolderInXX",
+        "title": "Open the root folder in XX"
       }
     ],
     "menus": {
@@ -27,17 +32,29 @@
         {
           "command": "open-in-xx.openInXX",
           "group": "navigation"
+        },
+        {
+          "command": "open-in-xx.openRootFolderInXX",
+          "group": "navigation"
         }
       ],
       "editor/context": [
         {
           "command": "open-in-xx.openInXX",
           "group": "navigation"
+        },
+        {
+          "command": "open-in-xx.openRootFolderInXX",
+          "group": "navigation"
         }
       ],
       "editor/title/context": [
         {
           "command": "open-in-xx.openInXX",
+          "group": "navigation"
+        },
+        {
+          "command": "open-in-xx.openRootFolderInXX",
           "group": "navigation"
         }
       ]
