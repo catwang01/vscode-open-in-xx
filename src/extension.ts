@@ -7,11 +7,20 @@ import * as path from 'path';
 
 const execAsync = promisify(exec);
 
+// 创建一个输出通道
+let outputChannel: vscode.OutputChannel;
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	// 使用双重日志确认扩展激活
-	console.log('Extension "open-in-xx" is activated! Activation time: ' + new Date().toISOString());
+	// 初始化输出通道
+	outputChannel = vscode.window.createOutputChannel('Open in XX');
+	context.subscriptions.push(outputChannel);
+	
+	// 记录扩展激活信息
+	outputChannel.appendLine(`Extension "open-in-xx" is activated! Activation time: ${new Date().toISOString()}`);
+	outputChannel.show(true); // 显示输出窗口，参数 true 表示不强制获取焦点
+	
 	vscode.window.showInformationMessage('Extension "open-in-xx" is now active!');
 
 	// The command has been defined in the package.json file
@@ -19,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('open-in-xx.openInXX', async (uri?: vscode.Uri) => {
 		// 添加日志记录命令被调用
-		console.log('Command "open-in-xx.openInXX" was called.');
+		outputChannel.appendLine(`Command "open-in-xx.openInXX" was called at ${new Date().toISOString()}`);
 		
 		try {
 			// 如果没有 uri 参数，尝试获取当前文件或当前工作区
@@ -80,11 +89,11 @@ export function activate(context: vscode.ExtensionContext) {
 				finalCommand = finalCommand.replace('${directory}', isDirectory ? path : path.includes('/') ? path.substring(0, path.lastIndexOf('/')) : '');
 			}
 
-			console.log(`Executing command: ${finalCommand}`);
+			outputChannel.appendLine(`Executing command: ${finalCommand}`);
 			await execAsync(finalCommand);
 			vscode.window.showInformationMessage(`已在 ${selected.label} 中打开`);
 		} catch (error) {
-			console.error('Error executing command:', error);
+			outputChannel.appendLine(`Error executing command: ${error}`);
 			vscode.window.showErrorMessage(`打开失败: ${error}`);
 		}
 	});
@@ -93,4 +102,9 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+	if (outputChannel) {
+		outputChannel.appendLine('Extension "open-in-xx" is deactivated');
+		outputChannel.dispose();
+	}
+}
