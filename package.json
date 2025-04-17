@@ -48,7 +48,7 @@
         "openInXX.programs": {
           "type": "object",
           "default": {},
-          "description": "Configure programs to open files/directories with. Use ${file} for file path and ${directory} for directory path."
+          "description": "Configure programs to open files/directories with. Use ${item} for the path. Can be a string command or an object with 'file' and 'directory' properties."
         }
       }
     }
