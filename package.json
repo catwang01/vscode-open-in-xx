@@ -4,20 +4,54 @@
   "description": "Open files/directories in any program you configured!",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.99.0"
+    "vscode": "^1.98.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:open-in-xx.openInXX",
+    "onView:explorer"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "open-in-xx.helloWorld",
-        "title": "Hello World"
+        "command": "open-in-xx.openInXX",
+        "title": "Open in XX"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "open-in-xx.openInXX",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "open-in-xx.openInXX",
+          "group": "navigation"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "open-in-xx.openInXX",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Open in XX",
+      "properties": {
+        "openInXX.programs": {
+          "type": "object",
+          "default": {},
+          "description": "Configure programs to open files/directories with. Use ${file} for file path and ${directory} for directory path."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -31,7 +65,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.99.0",
+    "@types/vscode": "^1.98.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@typescript-eslint/eslint-plugin": "^8.17.0",

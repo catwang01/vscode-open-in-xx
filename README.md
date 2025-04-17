@@ -1,16 +1,66 @@
-# open-in-xx README
+# open-in-xx
 
-This is the README for your extension "open-in-xx". After writing up a brief description, we recommend including the following sections.
+一个 VSCode 扩展，允许你在任何配置的程序中打开文件/目录。
 
-## Features
+## 功能
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 在文件/目录的上下文菜单中添加"Open in Program"选项
+- 支持配置多个程序
+- 支持文件和目录路径变量
 
-For example if there is an image subfolder under your extension project workspace:
+## 安装
 
-\!\[feature X\]\(images/feature-x.png\)
+### 从源码安装
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. 克隆仓库
+2. 运行 `npm install` 安装依赖
+3. 运行 `npm run compile` 编译扩展
+4. 按 F5 启动调试，或者使用 `vsce package` 打包成 vsix 文件安装
+
+## 配置
+
+在 VSCode 的 settings.json 中添加以下配置：
+
+```json
+{
+  "openInXX.programs": {
+    "Cursor": "cursor \"${file}\"",
+    "Terminal": "open -a Terminal \"${directory}\"",
+    "Sublime Text": "subl \"${file}\""
+  }
+}
+```
+
+### 变量说明
+
+- `${file}`: 文件路径
+- `${directory}`: 目录路径
+
+## 使用方法
+
+1. 在文件资源管理器中右键点击文件或目录
+2. 选择 "Open in Program"
+3. 从弹出的列表中选择要使用的程序
+
+## 故障排除
+
+如果右键菜单中没有显示 "Open in Program" 选项，请尝试以下步骤：
+
+1. 确保扩展已激活：打开命令面板（Cmd+Shift+P），输入 "Developer: Reload Window" 重新加载窗口
+2. 检查配置：打开 settings.json 确保 `openInXX.programs` 配置正确
+3. 检查日志：打开输出面板（View > Output），选择 "Log (Window)"，查看是否有错误信息
+4. 尝试重新安装扩展
+
+## 已知问题
+
+暂无
+
+## 更新日志
+
+### 0.0.1
+
+- 初始版本
+- 支持在配置的程序中打开文件/目录
 
 ## Requirements
 
